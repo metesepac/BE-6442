@@ -1,0 +1,26 @@
+
+          for (let index = 0; index < tags.split(",").length; index++) {
+        mytags=JSON.stringify(tags[index])+","+mytags
+    }
+    mytags= mytags.slice(0,-1)
+  
+  
+  const getpost =await this.prisma.post_tag.findMany({select:{postid:true},where:{tagid:{in:[parseInt(mytags)]}}});
+
+     for (let index = 0; index < getpost.length; index++) {
+        mypost=JSON.stringify(getpost[index].postid)+","+mypost
+    }
+    mypost= mypost.slice(0,-1)
+
+
+
+
+
+------------------
+
+        const  a= await this.prisma.post.findMany({select:{postid:true}})
+       for (let index = 0; index < a.length; index++) {
+        mypost=JSON.stringify(a[index].postid)+","+mypost
+    }
+    mypost= mypost.slice(0,-1)
+  

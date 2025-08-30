@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/**
+ * SELECT categoryid, "name", created_at, deleted_at FROM categories;
+ */
+model Category {
+  categoryid Int       @id @default(autoincrement())
+  name       String
+  created_at DateTime
+  deleted_at DateTime?
+}
+
+/**
+ * SELECT postid, "content", commenter_name, created_at, commentid FROM "comments";
+ */
+
+model Comment {
+  commentid      Int      @id @default(autoincrement())
+  postid         Int
+  content        String
+  commenter_name String
+  created_at     DateTime
+}
+
+/**
+ * SELECT postid, categoryid, title, "content", created_at, published_at, deleted_at FROM posts;
+ */
+
+model Post {
+  postid       Int       @id @default(autoincrement())
+  categoryid   Int
+  title        String
+  content      String
+  created_at   DateTime
+  published_at DateTime?
+  deleted_at   DateTime?
+}
+
+/**
+ * SELECT tagid, "name" FROM tags;
+ */
+
+model Tag {
+  tagid Int    @id @default(autoincrement())
+  name  String
+}
+
+/**
+ * SELECT postid, tagid FROM post_tags;
+ */
+
+model Post_tag {
+  postid Int
+  tagid  Int
+
+  @@id([postid, tagid])
+}
